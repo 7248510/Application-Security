@@ -74,7 +74,7 @@ gobuster dir -u http://10.10.82.109/ -w common.txt = No results
 
 After being completely stuck I looked at the offical room walkthrough/the creators youtube video and then realized that there are more than five ports open on the machine...
 	
-	
+```	
 nmap -p- 10.10.87.37 
 Starting Nmap 7.92 ( https://nmap.org ) at 2022-05-28 16:44 EDT
 Nmap scan report for 10.10.87.37
@@ -89,6 +89,7 @@ PORT      STATE SERVICE
 49663/tcp open  unknown
 49667/tcp open  unknown
 49669/tcp open  unknown
+```
 
 ## Foothold/Exploitation
 
@@ -118,12 +119,9 @@ Use the browser to run the reverse shell
 
 ## Post Exploitation
 
-whoami /priv
-^ Hacktricks
-https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/privilege-escalation-abusing-tokens
-smb upload printspoofer
-
-The PrintSpoofer exploit in the hacktricks repository did not work. The room creator uploaded the exploit in their repo (PrintSpooler)[https://github.com/dievus/printspoofer/].
+* whoami /priv
+* (Hacktricks)[https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/privilege-escalation-abusing-tokens]
+* The PrintSpoofer exploit in the hacktricks repository did not work. The room creator uploaded the exploit in their repo (PrintSpooler)[https://github.com/dievus/printspoofer/].
 	
 
 Extract both of the flags & submit!
