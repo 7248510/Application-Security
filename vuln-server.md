@@ -1,6 +1,7 @@
 # VulnServer
 
 # Tools:
+* Python
 * Spike
 * Ghidra
 * x64 Debbugger
@@ -17,13 +18,13 @@ In the event that this application did not reveal which port number the server i
 * WireShark
 * NMAP
 * Ghidra(disassemble the file and see if there's a string/number) 
-![Main function](images/main.PNG)
+![Main function](images/vuln-server/main.PNG)
 <br><br>A Reverse Engineer can view a programs imports and see if networking libraries are used. According to MSDN "The Ws2_32.dll loads the service provider's interface DLL into the system...This is typically triggered by an application calling either socket or WSASocket to create a new socket" This indicates that sockets may be used. The mswsock library was also used(dynamically). Mswsock = Windows Sockets 2.
 
-![networkIndicators](images/networkIndicators.PNG)
+![networkIndicators](images/vuln-server/networkIndicators.PNG)
 # Fuzzing:
 I am testing two commands that cause VulnServer to crash TRUN & KSTET.<br> I haven't fuzzed other commands. 
-![Getting ready to network Fuzz](images/readyFuzz.PNG)
+![Getting ready to network Fuzz](images/vuln-server/readyFuzz.PNG)
 
 # Binary Analysis:
 Lets say VulnServer crashes why did it crash and is the crash exploitable?<br>
@@ -35,9 +36,9 @@ I found the main programs logic using the HELP command. If a user enters HELP an
 If you enter "help" the output is UNKNOWN COMMAND. If you enter HELP various commands are displayed.
 <br>Note:It's easier to navigate the assembly with a combination of decompiler.(The symbol tree did not show the function with main logic)
 I only found the Undefined function with strings and the xref location in .rdata.
-![Figuring out the output](images/figureOut.PNG)
-![Help's output](images/help1.PNG)
-![Unknown Command](images/unknown.PNG)
+![Figuring out the output](images//vuln-serverfigureOut.PNG)
+![Help's output](images/vuln-server/help1.PNG)
+![Unknown Command](images/vuln-server/unknown.PNG)
 <br><br> Now that we found the vulnerable function's entry point lets analyze it.
 
 # Vulnerability:
@@ -46,9 +47,9 @@ Running spike fuzzer against the server crashes it.<br>
 Viewing KSTET in Ghidra reveals no bounds checking.<br>
 In the else statement caluse strncmp has no bounds checking for the passed input.<br>
 The variable has 4096 bytes of space. Since we're passing a string "\n" is also added. This triggers the crash!
-![4096 Variable](images/var.PNG)
-![Strncmp = vuln](images/vuln.PNG)
-![Crash](images/crash.PNG)
+![4096 Variable](images/vuln-server/var.PNG)
+![Strncmp = vuln](images/vuln-server/vuln.PNG)
+![Crash](images/vuln-server/crash.PNG)
 
 # POC:
 
