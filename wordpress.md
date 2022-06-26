@@ -12,5 +12,5 @@ wpscan --url https://target.tld/ --enumerate u
 # CVE 2019-17671
 [Exploit-DB writeup](https://www.exploit-db.com/exploits/47690)
 
-# Reversee shell
+# Reverse shell
 Edit the wordpress theme's 404 page and set it to become a reverse shell.
